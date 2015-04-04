@@ -24,7 +24,7 @@
     "async": "^0.9.0",
     "canonicalizer": "^1.0.1",
     "conform-async": "^1.1.1",
-    "levelnamer": "^1.3.1",
+    "levelnamer": "^1.4.1",
     "lodash": "^3.6.0",
     "queue-async": "^1.0.7",
     "tweet-truncate": "^1.1.0",
