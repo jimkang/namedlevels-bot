@@ -139,7 +139,7 @@ function postGroup(group, done) {
 }
 
 function formatLevelName(name, i) {
-  return i + ': ' + name;
+  return (i + 1) + ': ' + name;
 }
 
 async.waterfall(
