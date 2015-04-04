@@ -60,12 +60,12 @@ function getCandidates(done) {
   );
 }
 
-// TODO: Set memoizeServerPort option.
-
 var levelnamerDefaults = {
   totalLevels: 20,
+  // Comment this line out to run it without the cache.
+  memoizeServerPort: 4848,
   config: {
-    wordnikAPIKey: config.wordnikAPIKey
+    wordnikAPIKey: config.wordnikAPIKey,
   }
 };
 
@@ -148,7 +148,7 @@ async.waterfall(
     getLevelsForCandidates,
     pickBestGroup,
     postGroup
-  ]
+  ],
+  // TODO: Get rid of this when multilevel is cleaned up.
+  process.exit
 );
-
-// Do some stuff.
