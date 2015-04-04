@@ -1,0 +1,34 @@
+{
+  "name": "namedlevels-bot",
+  "version": "1.0.0",
+  "description": "This is a Twitter bot that posts Named Levels (http://jimkang.com/namedlevels/) excerpts.",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jimkang/namedlevels-bot.git"
+  },
+  "keywords": [],
+  "author": "Jim Kang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jimkang/namedlevels-bot/issues"
+  },
+  "homepage": "https://github.com/jimkang/namedlevels-bot",
+  "devDependencies": {
+    "tape": "^3.0.3"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "canonicalizer": "^1.0.1",
+    "conform-async": "^1.1.1",
+    "levelnamer": "^1.3.1",
+    "lodash": "^3.6.0",
+    "queue-async": "^1.0.7",
+    "tweet-truncate": "^1.1.0",
+    "twit": "^1.1.20",
+    "wordnok": "^2.2.1"
+  }
+}
