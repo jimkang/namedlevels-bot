@@ -9,16 +9,36 @@ var queue = require('queue-async');
 var _  = require('lodash');
 var countUniqueLevels = require('./count-unique-levels');
 var truncateToTweet = require('tweet-truncate');
+var probable = require('probable');
 
-var dryRun = false;
-if (process.argv.length > 2) {
-  dryRun = (process.argv[2].toLowerCase() == '--dry');
+var cmdOpts = require('nomnom')
+  .option('dryRun', {
+    abbr: 'dry',
+    flag: true,
+    help: 'Do not actually post to Twitter.'
+  })
+  .option('skipCache', {
+    abbr: 'skip-cache',
+    flag: true,
+    help: 'Skip connecting to the levelnames cache over RPC.'
+  })
+  .parse();
+
+var levelnamerDefaults = {
+  totalLevels: 20,
+  config: {
+    wordnikAPIKey: config.wordnikAPIKey
+  }
+};
+
+if (!cmdOpts.skipCache) {
+  levelnamerDefaults.memoizeServerPort = 4848;
 }
 
 var twit = new Twit(config.twitter);
 
 function postTweet(text, done) {
-  if (dryRun) {
+  if (cmdOpts.dryRun) {
     console.log('Would have tweeted:', text);
     callBackOnNextTick(done);
   }
@@ -60,15 +80,6 @@ function getCandidates(done) {
   );
 }
 
-var levelnamerDefaults = {
-  totalLevels: 20,
-  // Comment this line out to run it without the cache.
-  memoizeServerPort: 4848,
-  config: {
-    wordnikAPIKey: config.wordnikAPIKey,
-  }
-};
-
 function getLevelsForCandidates(candidates, done) {
   var singularCandidates = candidates.map(singularize);
 
@@ -107,6 +118,10 @@ function singularize(word) {
   return canonicalizer.getSingularAndPluralForms(word)[0];
 }
 
+function pluralize(word) {
+  return canonicalizer.getSingularAndPluralForms(word)[1];
+}
+
 function pickBestGroup(candidateGroups, done) {
   // console.log(candidateGroups.map(countUniqueLevels));
 
@@ -127,7 +142,7 @@ function pickGroupWithMostUniqueNames(groupA, groupB) {
 }
 
 function postGroup(group, done) {
-  var text = group.levelNames.map(formatLevelName).join('\n');
+  var text = summarizeLevelNames(group);
   var tweetText = truncateToTweet({
     text: text,
     urlsToAdd: [
@@ -138,9 +153,27 @@ function postGroup(group, done) {
   postTweet(tweetText, done);
 }
 
-function formatLevelName(name, i) {
-  return (i + 1) + ': ' + name;
+function summarizeLevelNames(classProfile) {
+  var summary = pluralize(classProfile.className).toUpperCase();
+  summary += ' TABLE I.\n\n';
+
+  var sampleStart = probable.roll(10);
+  var sampleEnd = sampleStart + 4 + probable.roll(4);
+  if (sampleEnd >= classProfile.levelNames.length) {
+    sampleEnd = classProfile.levelNames.length - 1;
+  }
+
+  var sampleNames = classProfile.levelNames.slice(sampleStart, sampleEnd);
+
+  var levelText = sampleNames.map(formatLevelName).join('\n');
+
+  return summary + levelText;
+
+  function formatLevelName(name, i) {
+    return 'Level ' + (sampleStart + i + 1) + ': ' + name;
+  }
 }
+
 
 async.waterfall(
   [

@@ -26,6 +26,8 @@
     "conform-async": "^1.1.1",
     "levelnamer": "^1.4.1",
     "lodash": "^3.6.0",
+    "nomnom": "^1.8.1",
+    "probable": "^1.4.0",
     "queue-async": "^1.0.7",
     "tweet-truncate": "^1.1.0",
     "twit": "^1.1.20",
