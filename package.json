@@ -31,6 +31,6 @@
     "queue-async": "^1.0.7",
     "tweet-truncate": "^1.1.1",
     "twit": "^1.1.20",
-    "wordnok": "^2.2.1"
+    "wordnok": "^3.0.0"
   }
 }
