@@ -15,4 +15,4 @@ npm-install:
 post-receive: sync-worktree-to-git npm-install
 
 pushall:
-	git push origin master && git push origin server
+	git push origin master && git push server master
