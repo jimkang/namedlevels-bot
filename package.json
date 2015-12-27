@@ -29,7 +29,7 @@
     "nomnom": "^1.8.1",
     "probable": "^1.4.0",
     "queue-async": "^1.0.7",
-    "tweet-truncate": "^1.1.0",
+    "tweet-truncate": "^1.1.1",
     "twit": "^1.1.20",
     "wordnok": "^2.2.1"
   }
