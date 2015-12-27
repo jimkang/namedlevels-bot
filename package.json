@@ -24,7 +24,7 @@
     "async": "^0.9.0",
     "canonicalizer": "^1.0.1",
     "conform-async": "^1.1.1",
-    "levelnamer": "^1.4.2",
+    "levelnamer": "^1.4.3",
     "lodash": "^3.6.0",
     "nomnom": "^1.8.1",
     "probable": "^1.4.0",
