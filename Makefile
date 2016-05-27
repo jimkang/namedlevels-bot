@@ -1,18 +1,16 @@
 HOMEDIR = $(shell pwd)
-GITDIR = /var/repos/namedlevels-bot.git
+USER = bot
+SERVER = smidgeo
+SSHCMD = ssh $(USER)@$(SERVER)
+PROJECTNAME = namedlevels-bot
+APPDIR = /opt/$(PROJECTNAME)
 
 run:
 	node post-levels-summary.js
 
-sync-worktree-to-git:
-	git --work-tree=$(HOMEDIR) --git-dir=$(GITDIR) checkout -f
+pushall: sync
+	git push origin master
 
-npm-install:
-	cd $(HOMEDIR)
-	npm install
-	npm prune
-
-post-receive: sync-worktree-to-git npm-install
-
-pushall:
-	git push origin master && git push server master
+sync:
+	rsync -a $(HOMEDIR) $(USER)@$(SERVER):/opt --exclude node_modules/
+	$(SSHCMD) "cd $(APPDIR) && npm install"
