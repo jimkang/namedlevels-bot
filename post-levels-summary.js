@@ -1,5 +1,5 @@
 var config = require('./config');
-var callBackOnNextTick = require('conform-async').callBackOnNextTick;
+var callNextTick = require('call-next-tick');
 var Twit = require('twit');
 var createWordnok = require('wordnok').createWordnok;
 var async = require('async');
@@ -40,7 +40,7 @@ var twit = new Twit(config.twitter);
 function postTweet(text, done) {
   if (cmdOpts.dryRun) {
     console.log('Would have tweeted:', text);
-    callBackOnNextTick(done);
+    callNextTick(done);
   }
   else {
     twit.post(
@@ -129,7 +129,7 @@ function pickBestGroup(candidateGroups, done) {
     pickGroupWithMostUniqueNames, candidateGroups[0]
   );
 
-  callBackOnNextTick(done, null, bestGroup);
+  callNextTick(done, null, bestGroup);
 }
 
 function pickGroupWithMostUniqueNames(groupA, groupB) {

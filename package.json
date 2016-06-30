@@ -21,16 +21,16 @@
     "tape": "^3.0.3"
   },
   "dependencies": {
-    "async": "^0.9.0",
-    "canonicalizer": "^1.0.1",
-    "conform-async": "^1.1.1",
-    "levelnamer": "^1.4.4",
+    "async": "^2.0.0-rc.6",
+    "call-next-tick": "^1.1.2",
+    "canonicalizer": "^1.0.2",
+    "d3-queue": "^3.0.1",
+    "levelnamer": "^1.4.5",
     "lodash": "^3.6.0",
     "nomnom": "^1.8.1",
-    "probable": "^1.4.0",
-    "queue-async": "^1.0.7",
+    "probable": "^2.0.1",
     "tweet-truncate": "^1.1.1",
-    "twit": "^1.1.20",
-    "wordnok": "^3.0.0"
+    "twit": "^2.2.4",
+    "wordnok": "^3.2.0"
   }
 }
