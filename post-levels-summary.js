@@ -17,11 +17,6 @@ var cmdOpts = require('nomnom')
     flag: true,
     help: 'Do not actually post to Twitter.'
   })
-  .option('skipCache', {
-    abbr: 'skip-cache',
-    flag: true,
-    help: 'Skip connecting to the levelnames cache over RPC.'
-  })
   .parse();
 
 var levelnamerDefaults = {
@@ -30,10 +25,6 @@ var levelnamerDefaults = {
     wordnikAPIKey: config.wordnikAPIKey
   }
 };
-
-if (!cmdOpts.skipCache) {
-  levelnamerDefaults.memoizeServerPort = 4848;
-}
 
 var twit = new Twit(config.twitter);
 
@@ -72,7 +63,7 @@ function getCandidates(done) {
   wordnok.getRandomWords(
     {
       customParams: {
-        includePartOfSpeech: '',
+        includePartOfSpeech: 'noun',
         limit: 4
       }
     },
