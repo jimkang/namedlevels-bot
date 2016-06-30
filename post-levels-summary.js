@@ -63,8 +63,7 @@ function getCandidates(done) {
   wordnok.getRandomWords(
     {
       customParams: {
-        includePartOfSpeech: 'noun',
-        limit: 4
+        limit: 5
       }
     },
     done
@@ -72,11 +71,9 @@ function getCandidates(done) {
 }
 
 function getLevelsForCandidates(candidates, done) {
-  var singularCandidates = candidates.map(singularize);
-
+  var goodCandidates = candidates.filter(isNotAWeirdNounForm).map(singularize);
   var q = queue(2);
-
-  singularCandidates.forEach(scheduleLevelNaming);
+  goodCandidates.forEach(scheduleLevelNaming);
 
   function scheduleLevelNaming(candidate) {
     var opts = {
@@ -99,7 +96,7 @@ function getLevelsForCandidates(candidates, done) {
 
   function groupNamesToCandidate(nameSet, i) {
     return {
-      className: singularCandidates[i],
+      className: goodCandidates[i],
       levelNames: nameSet
     };
   }
@@ -165,6 +162,15 @@ function summarizeLevelNames(classProfile) {
   }
 }
 
+function isNotAWeirdNounForm(word) {
+  var notWeird = true;
+  if (word.length > 5 && word.slice(-3) === 'ing') {
+    // Probably a gerund.
+    notWeird = false;
+  }
+
+  return notWeird;
+}
 
 async.waterfall(
   [
