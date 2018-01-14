@@ -1,3 +1,5 @@
+/* global process */
+
 var config = require('./config');
 var callNextTick = require('call-next-tick');
 var Twit = require('twit');
@@ -6,7 +8,7 @@ var async = require('async');
 var levelnamer = require('levelnamer');
 var canonicalizer = require('canonicalizer');
 var queue = require('queue-async');
-var _  = require('lodash');
+var _ = require('lodash');
 var countUniqueLevels = require('./count-unique-levels');
 var truncateToTweet = require('tweet-truncate');
 var probable = require('probable');
@@ -32,19 +34,17 @@ function postTweet(text, done) {
   if (cmdOpts.dryRun) {
     console.log('Would have tweeted:', text);
     callNextTick(done);
-  }
-  else {
+  } else {
     twit.post(
       'statuses/update',
       {
         status: text
       },
-      function tweetDone(error, data, response) {
+      function tweetDone(error, data) {
         if (error) {
           console.log(error);
           console.log('data:', data);
-        }
-        else {
+        } else {
           console.log('Posted to Twitter:', text);
         }
         done(error);
@@ -87,8 +87,7 @@ function getLevelsForCandidates(candidates, done) {
   function groupNamesAndCandidates(error, nameSets) {
     if (error) {
       done(error);
-    }
-    else {
+    } else {
       var groups = nameSets.map(groupNamesToCandidate);
       done(error, groups);
     }
@@ -113,9 +112,9 @@ function pluralize(word) {
 function pickBestGroup(candidateGroups, done) {
   // console.log(candidateGroups.map(countUniqueLevels));
 
-  var bestGroup = candidateGroups.slice(1).reduce(
-    pickGroupWithMostUniqueNames, candidateGroups[0]
-  );
+  var bestGroup = candidateGroups
+    .slice(1)
+    .reduce(pickGroupWithMostUniqueNames, candidateGroups[0]);
 
   callNextTick(done, null, bestGroup);
 }
@@ -123,8 +122,7 @@ function pickBestGroup(candidateGroups, done) {
 function pickGroupWithMostUniqueNames(groupA, groupB) {
   if (countUniqueLevels(groupA) > countUniqueLevels(groupB)) {
     return groupA;
-  }
-  else {
+  } else {
     return groupB;
   }
 }
@@ -133,9 +131,7 @@ function postGroup(group, done) {
   var text = summarizeLevelNames(group);
   var tweetText = truncateToTweet({
     text: text,
-    urlsToAdd: [
-      'http://jimkang.com/namedlevels/#/class/' + group.className
-    ]
+    urlsToAdd: ['http://jimkang.com/namedlevels/#/class/' + group.className]
   });
 
   postTweet(tweetText, done);
@@ -173,12 +169,7 @@ function isNotAWeirdNounForm(word) {
 }
 
 async.waterfall(
-  [
-    getCandidates,
-    getLevelsForCandidates,
-    pickBestGroup,
-    postGroup
-  ],
+  [getCandidates, getLevelsForCandidates, pickBestGroup, postGroup],
   // TODO: Get rid of this when multilevel is cleaned up.
   process.exit
 );

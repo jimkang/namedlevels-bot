@@ -6,8 +6,7 @@ function countUniqueLevels(classAndNames) {
   if (nonRepeatNames.some(containsFallbacks)) {
     // Drop anything that contains fallbacks.
     return 0;
-  }
-  else {
+  } else {
     return nonRepeatNames.length;
   }
 }

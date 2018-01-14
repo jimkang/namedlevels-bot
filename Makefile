@@ -14,3 +14,6 @@ pushall: sync
 sync:
 	rsync -a $(HOMEDIR) $(USER)@$(SERVER):/opt --exclude node_modules/
 	$(SSHCMD) "cd $(APPDIR) && npm install"
+
+prettier:
+	prettier --single-quote --write "**/*.js"

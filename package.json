@@ -29,7 +29,7 @@
     "lodash": "^3.6.0",
     "nomnom": "^1.8.1",
     "probable": "^2.0.1",
-    "tweet-truncate": "^1.1.1",
+    "tweet-truncate": "^2.0.0",
     "twit": "^2.2.4",
     "wordnok": "^3.2.0"
   }
